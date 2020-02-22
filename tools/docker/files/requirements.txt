@@ -1,0 +1,23 @@
+# Documentation requirements
+pyelftools
+sphinx==2.2.0
+sphinx-notfound-page==0.4
+sphinx-autobuild==0.7.1
+sphinx_rtd_theme==0.4.3
+recommonmark==0.6.0
+plantweb==1.1.0
+sphinx-versions==1.1.3
+sphinx-tabs==1.1.13
+tornado==5.1.1
+
+# Testing requirements
+tox==3.14.0
+flake8==3.7.9
+
+# HW development tools
+pyelftools
+-e git://github.com/m-labs/migen.git@e2e6c726c9c34209cd326d0a80df63668285a378#egg=migen
+-e git://github.com/enjoy-digital/litex.git@fd7ed6c1ec24ffbdbebb465bc8cc4713b6d40181#egg=litex
+-e git://github.com/enjoy-digital/liteeth.git@816f592469fdaa0fd30be701283312bc5742976e#egg=liteeth
+-e git://github.com/enjoy-digital/litedram.git@c4161cfbfebd480ba7c37defdf6ea62c7e6df4bb#egg=litedram
+-e git://github.com/enjoy-digital/litescope.git@c1d8bdf6f23b1070b8bd2dd277a4708863474148#egg=litescope

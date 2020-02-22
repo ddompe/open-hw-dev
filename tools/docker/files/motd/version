@@ -1,0 +1,8 @@
+#!/bin/bash
+
+cat /etc/update-motd.d/static
+
+echo -n "               Open Hardware development environment "
+cat /etc/asic_env_version
+
+echo
