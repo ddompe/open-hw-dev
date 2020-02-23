@@ -1,6 +1,3 @@
-# LASCAS
-For LASCAS DEMO
-
 run the test using:
 python3 test.py
 

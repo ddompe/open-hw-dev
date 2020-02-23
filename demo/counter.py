@@ -1,3 +1,5 @@
+# (C) Copyright 2020 Hewlett Packard Enterprise Development LP.
+
 import argparse
 import os
 from migen import *
