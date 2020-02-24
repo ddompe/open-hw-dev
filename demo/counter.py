@@ -5,43 +5,68 @@ import os
 from migen import *
 
 
-# Our simple counter, which increments at every cycle.
-class Counter(Module):
-    def __init__(self):
-        self.count = Signal(4)
-
-        # At each cycle, increase the value of the count signal.
-        # We do it with convertible/synthesizable FHDL code.
-        self.sync += self.count.eq(self.count + 1)
-
-
-# Simply read the count signal and print it.
-# The output is:
-# Count: 0
-# Count: 1
-# Count: 2
-# ...
-
+# Simple state machine 
 class State_Machine(Module):
     def __init__(self):
-        self.s = Signal()
-        self.counter = Signal(8)
+        self.s    = Signal()
+        self.init = Signal()
+        self.counting = Signal()
+        self.green = Signal(reset=1)
+        self.red   = Signal()
+        self.push  = Signal()
+        self.counter_a = Signal(8)
+        self.counter_b = Signal(8)
+        
+        #Create 7 diferent Signals
         x = Array(Signal(name="a") for i in range(7))
 
         myfsm = FSM()
         self.submodules += myfsm
 
-        myfsm.act("FOO",
+        myfsm.act("DEFAULT",
             self.s.eq(1),
-            NextState("BAR")
+            self.red.eq(0),
+            NextState("INIT")
         )
-        myfsm.act("BAR",
+        myfsm.act("INIT",
+            self.s.eq(1),
+            self.init.eq(1),
+            If(self.counter_b== 5,
+                NextState("WAIT"),
+            ).Else(
+                NextValue(self.counter_b, self.counter_b + 1),
+                NextState("INIT"),
+            )
+        )
+        myfsm.act("WAIT",
+            If(self.push,
+                NextState("COUNT"),
+            ).Else(
+                NextState("WAIT"),
+            )
+        )
+    
+        myfsm.act("COUNT",
+            self.init.eq(0),
+            self.red.eq(1),
+            self.green.eq(0),
+            NextValue(x[self.counter_a], 1),
+            If(self.counter_a == 10,
+                NextState("COUNT_DONE"),
+            ).Else(
+                NextValue(self.counter_a, self.counter_a + 1),
+                NextState("COUNT"),
+            )
+        )
+        myfsm.act("COUNT_DONE",
             self.s.eq(0),
-            NextValue(self.counter, self.counter + 1),
-            NextValue(x[self.counter], 89),
-            NextState("FOO")
+            NextValue(self.counter_a, 0),
+            NextValue(self.counter_b, 0),
+            NextState("INIT")
         )
+        
 
+        self.yellow = myfsm.before_entering("COUNT")
         self.be = myfsm.before_entering("FOO")
         self.ae = myfsm.after_entering("FOO")
         self.bl = myfsm.before_leaving("FOO")

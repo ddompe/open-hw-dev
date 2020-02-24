@@ -7,24 +7,16 @@ from counter import *
 from migen import *
 from migen.fhdl import verilog
 
-
-
-#def counter_test(dut):
-#    for i in range(20):
-#        print((yield dut.count))  # read and print
-#        yield  # next clock cycle
-#    # simulation ends with this generator
-
-#if __name__ == "__main__":
-#    dut = Counter()
-    #run_simulation(dut, counter_test(dut), vcd_name="basic1.vcd")
-
-
+#Test function
 def sm_test(dut):
+    for i in range(6):
+        yield
+    yield dut.push.eq(1)
+    yield
+    yield dut.push.eq(0)
     for i in range(20):
-        #print((yield dut))  # read and print
-        yield  # next clock cycle
-    # simulation ends with this generator
+        yield  
+        
 
 # create verilog code
 if __name__ == "__main__":
@@ -32,7 +24,7 @@ if __name__ == "__main__":
 
     create_verilog = 1
     if(create_verilog):
-        verilog.convert(dut, {dut.s, dut.counter, dut.be, dut.ae, dut.bl, dut.al}).write("my_machine.v")
+        verilog.convert(dut, {dut.s, dut.counter_a, dut.be, dut.ae, dut.bl, dut.al}).write("my_machine.v")
 
 # Run the simulation
 if __name__ == "__main__":
