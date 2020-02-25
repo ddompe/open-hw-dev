@@ -1,0 +1,8 @@
+container:
+  image: ddompe/openhw:20.02.0
+
+doc_task:
+  build_script: make -C docs html
+
+check_task:
+  test_script: python3 demo/test.py

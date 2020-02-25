@@ -33,14 +33,14 @@ Vagrant.configure("2") do |config|
     docker.has_ssh = true
     docker.auth_server = registry
     docker.pull = true
-    #This line is in case that you are running with multiple containers
-    config.vm.network "forwarded_port", guest: 80, host: 8080, auto_correct: true
   end
   config.ssh.username = "dev"
   config.ssh.forward_agent = true
   config.ssh.pty = true
   config.ssh.forward_x11 = true
   config.vm.synced_folder ".", "/home/dev/ws"
+  # Used when running the live documentation server
+  config.vm.network "forwarded_port", guest: 8000, host: 8000
   if File.exist?("/tmp/.X11-unix")
     config.vm.synced_folder "/tmp/.X11-unix", "/tmp/.X11-unix"
   end
